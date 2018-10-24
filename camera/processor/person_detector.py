@@ -1,10 +1,10 @@
 from __future__ import print_function
 from imutils.video.pivideostream import PiVideoStream
-from imutils.object_detection import non_max_suppression
 import imutils
 import time
 import numpy as np
 import cv2
+
 import os
 import sys
 import requests
@@ -17,10 +17,9 @@ try:
 except KeyError as e:
     sys.exit('Couldn\'t find env: {}'.format(e))
 
-
 net = cv2.dnn.readNetFromCaffe('/home/pi/models/MobileNetSSD_deploy.prototxt',
         '/home/pi/models/MobileNetSSD_deploy.caffemodel')
-
+        
 
 def upload():
     image = { 'file': open('hello.jpg', 'rb') }
@@ -30,6 +29,7 @@ def upload():
         'channels': [SLACK_CHANNEL],
     }
     requests.post(SLACK_URL, params=payload, files=image)
+
 
 class PersonDetector(object):
     def __init__(self, flip = True):
@@ -87,3 +87,4 @@ class PersonDetector(object):
                 self.last_upload = time.time()
                 
         return frame
+
